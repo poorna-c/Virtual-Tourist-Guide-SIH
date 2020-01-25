@@ -1,0 +1,66 @@
+{% extends 'main/base.html' %}
+
+{% block javascript %}
+    <script>
+        uploadbtn = document.getElementById('uploadbtn');
+        realFilebtn = document.getElementById('uploadInput');
+        uploadbtn.addEventListener("click",function() {realFilebtn.click();})
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#uploaded_image')
+                        .attr('src', e.target.result);
+                    document.getElementById('prediction').innerHTML = "";
+                    document.getElementById('description').innerHTML = "";
+
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+      function predictionsFromServer(){
+        $.ajax({
+          url: "livedata",
+          method: "POST",
+          headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          data: {'IMAGEDATA':document.getElementById('uploaded_image').src},
+          dataType: "json"
+          
+        }).done(function(response) {
+          console.log("Success");
+          document.getElementById('prediction').innerHTML = ""+response['prediction'];
+          document.getElementById('description').innerHTML = ""+response['description'];
+
+        }).fail(function (error) {
+          document.getElementById('prediction').innerHTML = "Server Error";
+        });
+      }
+
+    
+    </script>
+{% endblock %}
+
+
+{% block content %}
+
+<div>
+    <div class="row">
+    <div class="col-10 col-sm-10 col-md-6 col-lg-3 my-2" style="margin-left: 30px;">
+        <div class="">
+            <div class="text-center">
+                <h3>Virtual Tourist Guide</h3>
+                <input type="file" accept="image/*" name="" id="uploadInput" onchange="readURL(this);" class="btn btn-info my-1" hidden>
+                <!-- <button class="btn btn-info my-3">Capture Image</button> -->
+                <button id="uploadbtn" class="btn btn-danger my-3 px-3"> Upload Image</button>
+            </div>
+            </div>
+            <div class="text-center">
+                <img src="" onload="predictionsFromServer()" alt="" id="uploaded_image" style="width:300px;height:300px; min-width: 300px;min-height:300px;border:black 2px solid;">
+                <h5 id='prediction' class="my-3"></h5>
+                <p id="description" class="text-justify my-3"></p>
+            </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
