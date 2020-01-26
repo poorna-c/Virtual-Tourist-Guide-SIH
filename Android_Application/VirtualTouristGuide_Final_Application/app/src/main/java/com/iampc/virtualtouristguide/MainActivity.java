@@ -14,6 +14,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         webView = findViewById(R.id.webview);
 
         webView.loadUrl("https://virtualtouristguide.herokuapp.com");
+        webView.setWebViewClient(new WebViewClient());
 
         WebSettings mWebSettings = webView.getSettings();
         mWebSettings.setJavaScriptEnabled(true);
