@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class="m-3">
+
+    <div class="text-center">
+        <a class="btn btn-primary" href="{% url 'main_page' %}">Go Home</a>
+    </div>
+    <table class="table my-3">
+        <thead>
+          <tr>
+            <th scope="col">Place</th>
+            <th scope="col">Counts</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for key,value in stats %}
+            <tr>
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    
+    
+
+</div>
+{% endblock %}

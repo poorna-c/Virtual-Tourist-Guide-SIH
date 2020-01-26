@@ -6,6 +6,7 @@ import numpy as np
 import json
 import cv2
 from keras.models import load_model
+from django.conf import settings
 
 model = None
 c = ['AGONDA_BEACH',
@@ -34,6 +35,8 @@ data_info = json.load(open('data.json','r'))
 # Create your views here.
 def main(request):
     context = {}
+    if not settings.STATS:
+        init_stats()
     return render(request,'main/index.html',context)
 
 def livedata(request):
@@ -46,6 +49,7 @@ def livedata(request):
         predictions = predict(img)
         prediction = np.argmax(predictions)
         class_ = classes[prediction]
+        settings.STATS[class_] += 1
         description = data_info[class_]
         data = {
             'prediction':str(class_),
@@ -68,3 +72,15 @@ def predict(img):
         model = load_model('model.h5')
     predictions = model.predict_proba(img.reshape(-1,50,50))
     return predictions
+
+
+
+def init_stats():
+    for i in data_info.keys():
+        settings.STATS[i] = 0
+
+def stats(request):
+    data = settings.STATS
+    print(list(data.items()))
+
+    return render(request,'stats.html',{'stats':list(data.items())})
