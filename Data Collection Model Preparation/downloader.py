@@ -16,8 +16,9 @@ usr_agent = {
 data_file = json.load(open('data.json','r'))
 files = list(data_file.keys())
 
-    
-def download_images():
+for SAVE_FOLDER in files:
+	if not os.path.exists(SAVE_FOLDER):
+		os.mkdir(SAVE_FOLDER)
 	n_images = 100
 
 	print('Start searching...',SAVE_FOLDER)
@@ -53,10 +54,3 @@ def download_images():
 		except Exception as e:
 			print("Error!!!",e)
 	print('Done')
-
-
-if __name__ == '__main__':
-	for SAVE_FOLDER in files:
-		if not os.path.exists(SAVE_FOLDER):
-			os.mkdir(SAVE_FOLDER)
-		download_images()
