@@ -17,8 +17,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from main import views as main_views
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('main.urls')),
+    path('register/',main_views.register,name = 'register_page'),
+    path('accounts/login/',main_views.login_, name='login_page'),
+    path('logout/',auth_views.LogoutView.as_view(template_name='main/logout.html'),name = 'logout'),
+    path('delete/<int:id>',main_views.delete_comment,name="delete_comment_page"),
+    path('comment',main_views.add_comment,name="add_comment_page"),
+    path('checkins',main_views.checkins,name="checkins_page"),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<div class="m-3">
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="text-center ">Register</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <span>Username</span>
+            <input type="text" name="uname" id="" class="form-control" required>
+            <br>
+            <span>First Name</span>
+            <input type="text" name="fname" id="" class="form-control" required>
+            <br>
+            <span>Last Name</span>
+            <input type="text" name="lname" id="" class="form-control" required>
+            <br>
+            <span>Email</span>
+            <input type="text" name="email" id="" class="form-control" required>
+            <br>
+            <span>Mobile</span>
+            <input type="text" name="mobile" id="" class="form-control" required>
+            <br>
+            <span>Password</span>
+            <input type="password" name="pass" id="" class="form-control" required>
+            <br>
+            <span>Confirm Password</span>
+            <input type="password" name="cpass" id="" class="form-control" required>
+            <br>
+            <label for="">Already have an Account ? </label>
+            <a href="{% url 'login_page' %}">Sign in</a>
+            <button class="btn btn-success float-right" type="submit">Sign Up</button>
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

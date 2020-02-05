@@ -10,15 +10,60 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+
     <style>
         html, body {
             max-width: 100% !important;
             overflow-x: hidden !important;
         }
+        
+        .widget .panel-body { padding:0px; }
+        .widget .list-group { margin-bottom: 0; }
+        .widget .panel-title { display:inline }
+        .widget .label-info { float: right; }
+        .widget li.list-group-item {border-radius: 0;border: 0;border-top: 1px solid #ddd;}
+        .widget li.list-group-item:hover { background-color: rgba(86,61,124,.1); }
+        .widget .mic-info { color: #666666;font-size: 11px; }
+        .widget .action { margin-top:5px; }
+        .widget .comment-text { font-size: 12px; }
+        .widget .btn-block { border-top-left-radius:0px;border-top-right-radius:0px; }
     </style>
 
 </head>
 <body class="">
+    <header>
+        <!-- Navbar Start here -->
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+                <a href="{% url 'main_page'%}" class="navbar navbar-brand">Virtual Tourist Guide</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#NAVBAR">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="NAVBAR">
+                    <!-- <ul class="nav navbar-nav mr-auto">
+
+                    </ul> -->
+                    <ul class="nav navbar-nav ml-auto">
+                        {% if user.is_authenticated %}
+                        {% if user.is_superuser  %}
+                        <li class="nav-item"><a href="{% url 'checkins_page' %}" class="nav-link">Checkins</a></li>
+                        {% endif %}
+                            <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Not {{user.username}}? Logout</a></li>
+                        {% else %}
+                            <li class="nav-item"><a href="{% url 'register_page' %}" class="nav-link">Register</a></li>
+                            <li class="nav-item"><a href="{% url 'login_page' %}" class="nav-link">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar end here -->
+    </header>
+    {% for m in messages %}
+    <div class="alert alert-warning" role="alert">
+        {{m}}
+      </div>
+    {% endfor %}
     {% block content %}
 
     {% endblock %}

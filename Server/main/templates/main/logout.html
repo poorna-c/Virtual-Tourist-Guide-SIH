@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% block javascript %}
+    <script>
+        var id = 0;
+        var s = 2;
+        var timer = setTimeout(function() {
+            window.location="{% url 'main_page' %}"
+        }, 3000);
+        id = setInterval(rtime,1000)
+        
+        function rtime()
+        {
+            document.getElementById('time_remaining').innerHTML = s;
+            if(s>0){
+                s--;
+            }
+            
+        }
+    </script>
+{% endblock %}
+{% block content %}
+
+<div class="m-3">
+<div class="row">
+    <div class="ml-5">
+        <p>Logged Out Successfully....</p>
+        <p>Redirected in <span id="time_remaining">3</span> Seconds</p>
+    </div>
+</div>
+</div>
+{% endblock %}

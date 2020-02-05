@@ -31,6 +31,7 @@
           console.log("Success");
           document.getElementById('prediction').innerHTML = ""+response['prediction'];
           document.getElementById('description').innerHTML = ""+response['description'];
+          document.getElementById('comment_section').style.display = "block";
 
         }).fail(function (error) {
           document.getElementById('prediction').innerHTML = "Server Error";
@@ -44,24 +45,69 @@
 
 {% block content %}
 
-<div>
     <div class="row">
-    <div class="col-10 col-sm-10 col-md-6 col-lg-3 my-2" style="margin-left: 30px;">
-        <div class="">
-            <div class="text-center">
-                <h3>Virtual Tourist Guide</h3>
-                <input type="file" accept="image/*" name="" id="uploadInput" onchange="readURL(this);" class="btn btn-info my-1" hidden>
-                <!-- <button class="btn btn-info my-3">Capture Image</button> -->
-                <button id="uploadbtn" class="btn btn-danger my-3 px-3"> Upload Image</button>
-                <a class="btn btn-warning px-3" href="{% url 'stats_page' %}">Get Stats</a>
-            </div>
-            </div>
-            <div class="text-center">
-                <img src="" onload="predictionsFromServer()" alt="" id="uploaded_image" style="width:300px;height:300px; min-width: 300px;min-height:300px;border:black 2px solid;">
+      
+    <div class="col-10 col-sm-10 col-md-4 col-lg-4 my-2" style="margin-left: 30px;">
+          <div class="text-center">
+              <input type="file" accept="image/*" name="" id="uploadInput" onchange="readURL(this);" class="" hidden>
+              <button id="uploadbtn" class="btn btn-danger my-3 px-3"> Upload Image</button>
+              <a class="btn btn-warning my-3 px-3" href="{% url 'stats_page' %}">Get Stats</a>
+              <div class="">
+                <img src="" onload="predictionsFromServer()" alt="" id="uploaded_image" style="width:300px;height:300px; min-width: 300px;min-height:300px;">
                 <h5 id='prediction' class="my-3"></h5>
                 <p id="description" class="text-justify my-3"></p>
-            </div>
+              </div>
+          </div>
+
+          <div id = "comment_section" style="display: none;">
+            <div class="">
+              <div class="mb-5">
+                <form action="comment" method="POST">
+                  {% csrf_token %}
+                  <textarea name="comment" id="" cols="" rows="2" class="form-control"></textarea>
+                  <button type="submit" class="btn btn-primary my-2 float-right">Comment</button>
+                </form>
+              </div >
+              <div class="row">
+                  <div class="panel panel-default widget">
+                      <div class="panel-heading">
+                          <span class="glyphicon glyphicon-comment"></span>
+                          <h6 class="panel-title">
+                              Recent Comments</h6>
+                          <span class="label label-info">
+                              </span>
+                      </div>
+                      <div class="panel-body">
+                          <ul class="list-group">
+                            {% for comment in comments %}
+                              <li class="list-group-item">
+                                  <div class="row">
+                                      <div class="col-xs-2 col-md-1">
+                                          <img src="https://www.freeiconspng.com/uploads/account-icon-5.jpg" width="100px" height="80px" class="img-circle img-responsive" alt="" /></div>
+                                      <div class="col-xs-10 col-md-11">
+                                          <div>
+                                              <div class="mic-info">
+                                                  By: <a href="">{{comment.user}}</a>
+                                              </div>
+                                          </div>
+                                          <div class="comment-text">
+                                              {{comment.comment}}
+                                          </div>
+                                          <div class="action">
+                                              <a type="button" href="delete/{{comment.id}}" class="btn btn-danger btn-xs text-white">
+                                                  Delete
+                                              </a>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </div>
     </div>
     </div>
-</div>
 {% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+<div class="text-center">
+<div class="col-11" style="margin: auto;">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label for="" class="float-left mt-3">Select User</label>
+        <select name="users" id="" class="form-control">
+            <option value="">-Select-</option>
+            {% for u in users %}
+                <option value="{{u}}">{{u}}</option>
+            {% endfor %}
+        </select>
+        <label for="" class="text-center">-or-</label>
+        <label for="" class="mt-4 float-left">Select Place</label>
+    <select name="place" id="" class="form-control">
+        <option value="">-Select-</option>
+        <option value="0">AGONDA_BEACH</option>
+        <option value="1">ANJUNA_WEDNESDAY_MARKET</option>
+        <option value="2">ARAMBOL_HIPPIE_FESTIVAL</option>
+        <option value="3">ASILICA_OF_BOM_JESUS</option>
+        <option value="4">BAGA_BEACH</option>
+        <option value="5">CASINO_IN_PANJIM</option>
+        <option value="6">CHAPORA_FORT</option>
+        <option value="7">CHURCH_OF_OUR_LADY_OF_IMMACULATE_CONCEPTION</option>
+        <option value="8">DUDHSAGAR_FALLS</option>
+        <option value="9">FORT_AGUADA</option>
+        <option value="10">FORT_CABO_DE_RAMA</option>
+        <option value="11">GO_KART_RACING</option>
+        <option value="12">GRANDE_ISLAND</option>
+        <option value="13">HALASSA_RESTAURANT</option>
+        <option value="14">HILL_TOP_CLUB_IN_ANJUNA</option>
+        <option value="15">LATIN_QUARTER</option>
+        <option value="16">NAVAL_AVIATION_MUSEUM</option>
+        <option value="17">PARAGLIDING_IN_ARAMBOL</option>
+        <option value="18">TEREKHOL_FORT</option>
+    </select>
+    <button class="btn btn-primary float-right my-3" type="submit">Select</button>
+</form>
+<table class="table my-3">
+    <thead>
+      <tr>
+        <th scope="col">User</th>
+        <th scope="col">Date</th>
+        <th scope="col">Place</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for i in data %}
+        <tr>
+            <td>{{i.user}}</td>
+            <td>{{i.dt}}</td>
+            <td>{{i.p}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+</div>
+    
+    
+    </div>
+{% endblock %}
