@@ -45,12 +45,12 @@
 
 {% block content %}
 
-    <div class="row">
+    <div class="row my-3 border">
       
-    <div class="col-10 col-sm-10 col-md-4 col-lg-4 my-2" style="margin-left: 30px;">
+    <div class="col-10 my-2" style="margin-left: 30px;">
           <div class="text-center">
               <input type="file" accept="image/*" name="" id="uploadInput" onchange="readURL(this);" class="" hidden>
-              <button id="uploadbtn" class="btn btn-danger my-3 px-3"> Upload Image</button>
+              <button id="uploadbtn" class="btn btn-danger my-3 px-3"> Upload</button>
               <a class="btn btn-warning my-3 px-3" href="{% url 'stats_page' %}">Get Stats</a>
               <div class="">
                 <img src="" onload="predictionsFromServer()" alt="" id="uploaded_image" style="width:300px;height:300px; min-width: 300px;min-height:300px;">

@@ -64,10 +64,15 @@
         {{m}}
       </div>
     {% endfor %}
-    {% block content %}
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            {% block content %}
 
-    {% endblock %}
-
+            {% endblock %}
+        </div>
+        <div class="col-4"></div>
+    </div>
 
 </body>
 

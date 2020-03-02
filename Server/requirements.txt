@@ -31,3 +31,4 @@ tensorflow==1.10.0
 tensorflow-tensorboard==0.1.8
 termcolor==1.1.0
 Werkzeug==0.16.0
+django-crispy-forms==1.8.1

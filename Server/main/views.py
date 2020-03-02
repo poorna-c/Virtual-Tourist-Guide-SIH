@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from .models import details, comments, check_in_data
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 
 model = None
 c = ['AGONDA_BEACH',
@@ -104,37 +105,44 @@ def stats(request):
 def register(request):
     message = []
     if request.method == "POST":
-        data = request.POST
-        uname = data.get('uname')
-        fname = data.get('fname')
-        lname = data.get('lname')
-        email = data.get('email')
-        pass_ = data.get('pass')
-        cpass = data.get('cpass')
-        mobile = data.get('mobile')
-        if User.objects.filter(username = uname).first() is None:
-            if len(mobile) > 15:
-                message.append("Enter a valid Mobile Number !!!")
-                return redirect("register_page")
-            elif pass_ != cpass:
-                message.append("Both Passwords doesn't match")
-                return redirect("register_page")
-            try:
-                User(username = uname,email=email,first_name=fname,last_name=lname).save()
-                u = User.objects.get(username=uname)
-                u.set_password(pass_)
-                u.save()
-                if details.objects.filter(user=u).first() is None:
-                    details(user = u,mobile=mobile).save()
-                message.append("Registration Successfull with username "+u.username)
-                return redirect('login_page')
-            except Exception as e:
-                message.append(str(e))
+        # data = request.POST
+        # uname = data.get('uname')
+        # fname = data.get('fname')
+        # lname = data.get('lname')
+        # email = data.get('email')
+        # pass_ = data.get('pass')
+        # cpass = data.get('cpass')
+        # mobile = data.get('mobile')
+        # if User.objects.filter(username = uname).first() is None:
+        #     if len(mobile) > 15:
+        #         message.append("Enter a valid Mobile Number !!!")
+        #         return redirect("register_page")
+        #     elif pass_ != cpass:
+        #         message.append("Both Passwords doesn't match")
+        #         return redirect("register_page")
+        #     try:
+        #         User(username = uname,email=email,first_name=fname,last_name=lname).save()
+        #         u = User.objects.get(username=uname)
+        #         u.set_password(pass_)
+        #         u.save()
+        #         if details.objects.filter(user=u).first() is None:
+        #             details(user = u,mobile=mobile).save()
+        #         message.append("Registration Successfull with username "+u.username)
+        #         return redirect('login_page')
+        #     except Exception as e:
+        #         message.append(str(e))
+        # else:
+        #     message.append("User Name Already Taken")
+        #     return redirect('register_page')
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login_page')
         else:
-            message.append("User Name Already Taken")
-            return redirect('register_page')
-        
-    return render(request,'main/register.html',{'messages' : message})
+            message.append("Registration Failed")
+    else:
+        form = UserCreationForm()
+    return render(request,'main/register.html',{'messages' : message,'form':form})
 
 
 def login_(request):
